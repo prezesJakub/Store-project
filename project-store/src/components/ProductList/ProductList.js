@@ -8,9 +8,49 @@ const ProductList = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        fetch('https://fakestoreapi.com/products')
-            .then(response => response.json())
-            .then(data => setProducts(data));
+        const fetchProducts = async () => {
+            try {
+                const fakestorePromise = fetch('https://fakestoreapi.com/products')
+                    .then((response) => {
+                        if(!response.ok) {
+                            console.error("Błąd pobierania danych z FakestoreAPI");
+                            return [];
+                        }
+                        return response.json();
+                    })
+                    .catch((error) => {
+                        console.error("Błąd danych w fetch FakestoreAPI", error);
+                        return [];
+                    });
+                
+                const localPromise = fetch('http://localhost:5000/products')
+                    .then((response) => {
+                        if(!response.ok) {
+                            console.error("Błąd pobierania danych z db.json");
+                            return [];
+                        }
+                        return response.json();
+                    })
+                    .catch((error) => {
+                        console.error("Błąd danych w fetch FakestoreAPI", error);
+                        return [];
+                    });
+                
+                const [fakestoreData, localData] = await Promise.all([fakestorePromise, localPromise]);
+
+                console.log("Dane z FakestoreAPI:", fakestoreData);
+                console.log("Dane z db.json:", localData);
+
+                setProducts([
+                    ...fakestoreData.map((product) => ({ ...product, origin: 'fakestore' })),
+                    ...localData.map((product) => ({ ...product, origin: 'local' })),
+                ]);
+            } catch (error) {
+                console.error("Błąd", error);
+            };
+        
+        };
+        fetchProducts();
     }, []);
 
     const filteredProducts = products.filter(product =>
@@ -24,7 +64,7 @@ const ProductList = () => {
             <div className="product-grid">
                 {filteredProducts.map(product => (
                     <div key={product.id} className="product-card">
-                        <Link to={`/product/${product.id}`}>
+                        <Link to={`/product/${product.id}?origin=${product.origin}`}>
                             <img src={product.image} alt={product.title} className="product-image"/>
                             <h3>{product.title}</h3>
                             <p>{product.description.substring(0, 100)}...</p>
