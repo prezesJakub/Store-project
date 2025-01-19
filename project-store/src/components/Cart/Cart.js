@@ -1,5 +1,6 @@
 import React, {useContext} from "react";
 import {CartContext} from "../../context/CartContext";
+import {Link} from "react-router-dom";
 import "./Cart.css"
 
 const Cart = () => {
@@ -42,7 +43,10 @@ const Cart = () => {
             {cartItems.length > 0 && (
                 <div className="cart-summary">
                     <h3>Łączna cena: ${totalPrice.toFixed(2)}</h3>
-                    <button className="checkout-button">Przejdź do zamówienia</button>
+                    <Link to="/order">
+                        <button className="checkout-button">Przejdź do zamówienia</button>
+                    </Link>
+                    
                 </div>
             )}
         </div>
