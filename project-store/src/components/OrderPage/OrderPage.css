@@ -86,6 +86,21 @@ input {
     background: #0056b3;
 }
 
+.form-group {
+    margin-bottom: 15px;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+input.error {
+    border: 1px solid red;
+    background-color: #ffe6e6;
+}
+
 @media (max-width: 768px) {
     .order-content {
         flex-direction: column;

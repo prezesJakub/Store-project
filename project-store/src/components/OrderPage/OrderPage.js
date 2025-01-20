@@ -6,15 +6,33 @@ import "./OrderPage.css";
 const OrderPage = () => {
     const { cartItems, clearCart } = useContext(CartContext);
     const [userInfo, setUserInfo] = useState({ name: '', address: ''});
+    const [errors, setErrors] = useState({});
     const navigate = useNavigate();
     const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setUserInfo(prev => ({ ...prev, [name]: value }));
+        setUserInfo((prev) => ({ ...prev, [name]: value }));
+        setErrors((prev) => ({ ...prev, [name]: ""}));
+    };
+
+    const validateForm = () => {
+        const newErrors = {};
+        if(!userInfo.name.trim()) {
+            newErrors.name = "Imię i nazwisko są wymagane";
+        }
+        if(!userInfo.address.trim()) {
+            newErrors.address = "Adres dostawy jest wymagany";
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async () => {
+        if(!validateForm()) {
+            return;
+        }
+
         const order = {
             user: userInfo,
             products: cartItems,
@@ -66,22 +84,28 @@ const OrderPage = () => {
 
             <h3>Dane użytkownika</h3>
             <form onSubmit={(e) => e.preventDefault()}>
-                <input 
-                    type="text"
-                    name="name"
-                    placeholder="Imię i nazwisko"
-                    value={userInfo.name}
-                    onChange={handleChange}
-                    required
-                />
-                <input 
-                    type="text"
-                    name="address"
-                    placeholder="Adres dostawy"
-                    value={userInfo.address}
-                    onChange={handleChange}
-                    required
-                />
+                <div className="form-group">
+                    <input 
+                        type="text"
+                        name="name"
+                        placeholder="Imię i nazwisko"
+                        value={userInfo.name}
+                        onChange={handleChange}
+                        className={errors.name ? "error" : ""}
+                    />
+                    {errors.name && <p className="error-message">{errors.name}</p>}
+                </div>
+                <div className="form-group">
+                    <input 
+                        type="text"
+                        name="address"
+                        placeholder="Adres dostawy"
+                        value={userInfo.address}
+                        onChange={handleChange}
+                        className={errors.address ? "error" : ""}
+                    />
+                    {errors.address && <p className="error-message">{errors.address}</p>}
+                </div>
                 <button type="button" onClick={handleSubmit}>
                     Złóż zamówienie
                 </button>
