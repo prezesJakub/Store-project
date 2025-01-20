@@ -7,6 +7,9 @@ import Cart from './components/Cart/Cart';
 import OrderPage from './components/OrderPage/OrderPage';
 import OrderConfirmation from './components/OrderConfirmation/OrderConfirmation';
 import CartProvider from './context/CartContext';
+import Login from "./components/Auth/Login";
+import Register from "./components/Auth/Register";
+import RegistrationConfirmation from './components/RegistrationConfirmation/RegistrationConfirmation';
 
 
 const App = () => {
@@ -21,6 +24,9 @@ const App = () => {
             <Route path="/cart" element={<Cart />} />
             <Route path="/order" element={<OrderPage />} />
             <Route path="/order-confirmation" element={<OrderConfirmation />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/registration-confirmation" element={<RegistrationConfirmation />} />
           </Routes>
         </Router>
       </CartProvider>
