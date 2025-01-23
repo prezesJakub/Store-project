@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { CartContext } from '../../context/CartContext';
 import { useParams, useLocation } from 'react-router-dom';
+import ReviewsList from '../ReviewsList/ReviewsList';
+import AddReview from '../AddReview/AddReview';
 import "./ProductDetails.css";
 
 const ProductDetails = () => {
@@ -10,6 +12,7 @@ const ProductDetails = () => {
     const origin = queryParams.get('origin');
     const {addToCart} = useContext(CartContext);
     const [product, setProduct] = useState(null); 
+    const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -39,6 +42,31 @@ const ProductDetails = () => {
         fetchProduct();
     }, [id, origin]);
 
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                const reviewsData = [
+                    {
+                        email: "john@example.com",
+                        stars: 5,
+                        message: "Great product!",
+                        date: "2025-01-20",
+                    },
+                    {
+                        email: "jane@example.com",
+                        stars: 4,
+                        message: "Good quality, but delivery took too long.",
+                        date: "2025-01-18",
+                    },
+                ];
+                setReviews(reviewsData);
+            } catch (error) {
+                console.error("Error fetching reviews: ", error);
+            }
+        };
+        fetchReviews();
+    }, [id])
+
     if(!product) {
         return <div>Loading...</div>
     }
@@ -58,6 +86,14 @@ const ProductDetails = () => {
                     </button>
                 </div>
             </div>
+            <div className="review-section">
+                <ReviewsList reviews={reviews} />
+            </div>
+            <div className="add-review-section">
+                <AddReview />
+            </div>
+
+            
         </div>
     );
 };
