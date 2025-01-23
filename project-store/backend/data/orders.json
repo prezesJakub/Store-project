@@ -1,0 +1,12 @@
+[
+    {
+        "id": 1,
+        "userId": 2,
+        "products": [
+            { "id": 31, "quantity": 2 },
+            { "id": 32, "quantity": 1 }
+        ],
+        "totalPrice": 49.98,
+        "date": "2025-01-22T15:30:00Z"
+    }
+]
