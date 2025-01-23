@@ -20,7 +20,7 @@ const Register = () => {
         return passwordRegex.test(password);
     };
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
 
         if(!email || !password || !confirmPassword) {
@@ -43,10 +43,27 @@ const Register = () => {
             return;
         }
 
-        console.log("Rejestracja:", {email, password});
-        setError("");
+        try {
+            const response = await fetch("http://localhost:5001/api/users/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({username: email.split("@")[0], email, password})
+            });
 
-        navigate("/registration-confirmation");
+            if(!response.ok) {
+                const data = await response.json();
+                setError(data.error || "Wystąpił błąd!");
+                return;
+            }
+
+            setError("");
+            navigate("/registration-confirmation");
+        } catch (err) {
+            console.error(err);
+            setError("Błąd serwera");
+        }
     };
 
     const handleEmailChange = (e) => {

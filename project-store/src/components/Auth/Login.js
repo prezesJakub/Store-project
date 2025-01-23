@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import "./Auth.css";
 
 const Login = () => {
@@ -6,8 +7,9 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
 
         if (!email || !password) {
@@ -15,8 +17,29 @@ const Login = () => {
             return;
         }
 
-        console.log("Logowanie:", {email, password});
-        setError("");
+        try {
+            const response = await fetch("http://localhost:5001/api/users/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({email, password})
+            });
+
+            const data = await response.json();
+
+            if(!response.ok) {
+                setError(data.error || "Wystąpił błąd!");
+                return;
+            }
+
+            localStorage.setItem("token", data.token);
+            setError("");
+            navigate("/");
+        } catch (err) {
+            console.error(err);
+            setError("Błąd serwera");
+        }
     };
 
     return (

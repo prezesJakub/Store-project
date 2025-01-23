@@ -1,14 +1,23 @@
 [
-    {
-      "id": 1,
-      "username": "admin",
-      "password": "admin123",
-      "role": "admin"
-    },
-    {
-      "id": 2,
-      "username": "user1",
-      "password": "user123",
-      "role": "user"
-    }
-  ]
+  {
+    "id": 1,
+    "username": "admin",
+    "email": "admin@example.com",
+    "password": "admin123",
+    "role": "admin"
+  },
+  {
+    "id": 2,
+    "username": "user1",
+    "email": "user1@example.com",
+    "password": "user123",
+    "role": "user"
+  },
+  {
+    "id": 3,
+    "username": "test123",
+    "email": "test123@example.com",
+    "password": "$2b$10$t9ud8txz3dK2XHJjn5dLmOwvm1hK5jUouEMtaQIUuQn.18ke8epgO",
+    "role": "user"
+  }
+]
