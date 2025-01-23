@@ -7,7 +7,8 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-    const product = products.find(p => p.id === req.params.id);
+    const productId = Number(req.params.id);
+    const product = products.find(p => p.id === productId);
     if (!product) 
         return res.status(404).json({error: "Produkt nieznaleziony"});
     res.json(product);

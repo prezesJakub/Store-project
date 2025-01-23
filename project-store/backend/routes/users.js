@@ -133,10 +133,15 @@ router.get("/orders", (req, res) => {
         const userOrders = orders
             .filter((order) => order.userId === decoded.id)
             .map((order) => {
+                const orderProducts = order.products.map(product => ({
+                    id: product.id,
+                    quantity: product.quantity
+                }));
+
                 return {
                     id: order.id,
-                    items: order.products.map((product) => `Produkt ${product.id} (ilość: ${product.quantity})`),
-                    total: order.totalPrice,
+                    products: orderProducts,
+                    totalPrice: order.totalPrice,
                     date: order.date
                 };
             });

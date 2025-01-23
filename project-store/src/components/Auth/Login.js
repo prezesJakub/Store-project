@@ -42,6 +42,10 @@ const Login = () => {
         }
     };
 
+    const handleRegisterRedirect = () => {
+        navigate("/register");
+    };
+
     return (
         <div className="auth-container">
             <h2>Logowanie</h2>
@@ -75,6 +79,10 @@ const Login = () => {
                 {error && <p className="error-message">{error}</p>}
                 <button type="submit">Zaloguj się</button>
             </form>
+            <div className="register-link">
+                <p>Nie masz jeszcze konta?</p>
+                <button onClick={handleRegisterRedirect}>Zarejestruj się</button>
+            </div>
         </div>
     );
 };
