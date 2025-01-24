@@ -186,9 +186,59 @@
         "quantity": 10
       }
     ],
-    "totalPrice": 199.90,
+    "totalPrice": 199.9,
     "userName": "Michał Kichał",
     "userAddress": "Zielona 23",
     "date": "2025-01-24T00:30:03.713Z"
+  },
+  {
+    "id": 13,
+    "userId": 3,
+    "products": [
+      {
+        "id": 32,
+        "quantity": 5
+      },
+      {
+        "id": 31,
+        "quantity": 10
+      }
+    ],
+    "totalPrice": 249.9,
+    "userName": "Michał Kichał",
+    "userAddress": "Zielona 23",
+    "date": "2025-01-24T20:18:46.956Z"
+  },
+  {
+    "id": 14,
+    "userId": 3,
+    "products": [
+      {
+        "id": 33,
+        "quantity": 2
+      },
+      {
+        "id": 31,
+        "quantity": 3
+      }
+    ],
+    "totalPrice": 67.95,
+    "userName": "Michał Kichał",
+    "userAddress": "Zielona 23",
+    "date": "2025-01-24T20:36:13.925Z"
+  },
+  {
+    "id": 15,
+    "userId": 3,
+    "products": [
+      {
+        "id": 21,
+        "quantity": 2
+      }
+    ],
+    "totalPrice": 26,
+    "userName": "Michał Kichał",
+    "userAddress": "Zielona 23",
+    "date": "2025-01-24T21:40:21.206Z"
   }
 ]

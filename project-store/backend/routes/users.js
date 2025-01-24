@@ -155,7 +155,7 @@ router.get("/orders", (req, res) => {
                 return {
                     id: order.id,
                     products: orderProducts,
-                    totalPrice: order.totalPrice.toFixed(2),
+                    totalPrice: order.totalPrice,
                     date: order.date
                 };
             });

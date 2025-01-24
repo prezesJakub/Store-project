@@ -42,13 +42,18 @@ router.post("/", (req, res) => {
             return res.status(400).json({error: "Produkty i cena są wymagane!"});
         }
 
+        const totalPriceNumber = parseFloat(totalPrice);
+        if (isNaN(totalPriceNumber)) {
+            return res.status(400).json({error: "totalPrice musi być liczbą"});
+        }
+
         const orders = readOrders();
 
         const newOrder = {
             id: orders.length + 1,
             userId: decoded.id,
             products,
-            totalPrice,
+            totalPrice: totalPriceNumber,
             userName: user.name,
             userAddress: user.address,
             date: new Date().toISOString()
