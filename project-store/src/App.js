@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { OrdersProvider } from './context/OrdersContext';
 import Header from './components/Header/Header'
 import ProductList from './components/ProductList/ProductList';
 import ProductDetails from './components/ProductDetails/ProductDetails';
@@ -16,22 +17,25 @@ import Profile from './components/Profile/Profile';
 const App = () => {
   return (
     <div className="App">
-      <CartProvider>
-        <Router>
-          <Header />
-          <Routes>
-            <Route path="/" element={<ProductList />} />
-            <Route path="/product/:id" element={<ProductDetails />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/order" element={<OrderPage />} />
-            <Route path="/order-confirmation" element={<OrderConfirmation />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/registration-confirmation" element={<RegistrationConfirmation />} />
-            <Route path="/profile" element={<Profile />} />
-          </Routes>
-        </Router>
-      </CartProvider>
+      <OrdersProvider>
+        <CartProvider>
+          <Router>
+            <Header />
+            <Routes>
+              <Route path="/" element={<ProductList />} />
+              <Route path="/product/:id" element={<ProductDetails />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/order" element={<OrderPage />} />
+              <Route path="/order-confirmation" element={<OrderConfirmation />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/registration-confirmation" element={<RegistrationConfirmation />} />
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+          </Router>
+        </CartProvider>
+      </OrdersProvider>
+      
     </div>
   );
 };

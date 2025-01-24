@@ -1,10 +1,12 @@
 import React, {useContext, useState} from "react";
 import { CartContext } from "../../context/CartContext";
+import { useOrders } from "../../context/OrdersContext";
 import { useNavigate } from "react-router-dom";
 import "./OrderPage.css";
 
 const OrderPage = () => {
     const { cartItems, clearCart } = useContext(CartContext);
+    const {updateOrders} = useOrders();
     const [userInfo, setUserInfo] = useState({ name: '', address: ''});
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
@@ -34,17 +36,27 @@ const OrderPage = () => {
         }
 
         const order = {
+            products: cartItems.map(item => ({
+                id: item.id,
+                quantity: item.quantity
+            })),
+            totalPrice: total.toFixed(2),
             user: userInfo,
-            products: cartItems,
-            totalPrice: total,
-            date: new Date().toISOString()
         };
 
+        const token = localStorage.getItem("token");
+
+        if(!token) {
+            console.error("Token nieznaleziony, użytkownik musi być zalogowany!");
+            return;
+        }
+
         try {
-            const response = await fetch('http://localhost:5000/orders', {
+            const response = await fetch('http://localhost:5001/api/orders', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify(order),
             });
@@ -54,6 +66,7 @@ const OrderPage = () => {
             }
 
             clearCart();
+            await updateOrders();
             navigate('/order-confirmation');
         } catch (error) {
             console.error('Error placing order: ', error);
@@ -106,7 +119,7 @@ const OrderPage = () => {
                     />
                     {errors.address && <p className="error-message">{errors.address}</p>}
                 </div>
-                <button type="button" onClick={handleSubmit}>
+                <button type="submit" onClick={handleSubmit}>
                     Złóż zamówienie
                 </button>
             </form>

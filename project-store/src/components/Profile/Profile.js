@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
+import { useOrders } from "../../context/OrdersContext";
 import "./Profile.css";
 
 const Profile = () => {
+    const {orders, updateOrders} = useOrders();
     const [userData, setUserData] = useState(null);
-    const [orders, setOrders] = useState([]);
+    
     const [products, setProducts] = useState([]);
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -36,18 +38,6 @@ const Profile = () => {
                 const userData = await userResponse.json();
                 setUserData(userData);
 
-                const ordersResponse = await fetch("http://localhost:5001/api/users/orders", {
-                    headers: {Authorization: `Bearer ${token}`},
-                });
-
-                if(!ordersResponse.ok) {
-                    throw new Error("Błąd pobierania zamówień");
-                }
-
-                const ordersData = await ordersResponse.json();
-                console.log(ordersData);
-                setOrders(ordersData);
-
                 const productsResponse = await fetch("http://localhost:5001/api/products");
 
                 if(!productsResponse.ok) {
@@ -56,6 +46,8 @@ const Profile = () => {
 
                 const productsData = await productsResponse.json();
                 setProducts(productsData);
+
+                await updateOrders();
             } catch (err) {
                 console.error(err);
                 setError("Nie udało się załadować danych");
@@ -64,7 +56,7 @@ const Profile = () => {
             }
         };
         fetchProfileData();
-    }, [navigate]);
+    }, [navigate, updateOrders]);
 
     const handleLogout = () => {
         localStorage.removeItem("token");

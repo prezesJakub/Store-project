@@ -6,18 +6,28 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const usersFilePath = path.join(__dirname, "../data/users.json");
-const users = require(usersFilePath);
 
 const ordersFilePath = path.join(__dirname, "../data/orders.json");
-const orders = require(ordersFilePath);
 
 const JWT_SECRET = "your_jwt_secret_key";
 
+const getUsers = () => {
+    const data = fs.readFileSync(usersFilePath, "utf-8");
+    return JSON.parse(data);
+};
+
+const getOrders = () => {
+    const data = fs.readFileSync(ordersFilePath, "utf-8");
+    return JSON.parse(data);
+}
+
 router.get("/", (req, res) => {
+    const users = getUsers();
     res.json(users);
 });
 
 router.get("/user/:id", (req, res) => {
+    const users = getUsers();
     const user = users.find(u => u.id === parseInt(req.params.id));
     if(!user) return res.status(404).json({error: "Użytkownik nieznaleziony"});
     res.json(user);
@@ -30,6 +40,7 @@ router.post("/register", async (req, res) => {
         return res.status(400).json({error: "Wszystkie pola są wymagane!"});
     }
 
+    const users = getUsers();
     const existingUser = users.find(u => u.email === email);
 
     if(existingUser) {
@@ -60,6 +71,7 @@ router.post("/login", async (req, res) => {
         return res.status(400).json({error: "Wszystkie pola są wymagane!"});
     }
 
+    const users = getUsers();
     const user = users.find(u => u.email === email);
     if(!user) {
         return res.status(404).json({error: "Użytkownik nie istnieje!"});
@@ -103,6 +115,7 @@ router.get("/profile", (req, res) => {
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
+        const users = getUsers();
         const user = users.find((u) => u.id === decoded.id);
 
         if(!user) {
@@ -130,6 +143,7 @@ router.get("/orders", (req, res) => {
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
+        const orders = getOrders();
         const userOrders = orders
             .filter((order) => order.userId === decoded.id)
             .map((order) => {
@@ -141,7 +155,7 @@ router.get("/orders", (req, res) => {
                 return {
                     id: order.id,
                     products: orderProducts,
-                    totalPrice: order.totalPrice,
+                    totalPrice: order.totalPrice.toFixed(2),
                     date: order.date
                 };
             });
