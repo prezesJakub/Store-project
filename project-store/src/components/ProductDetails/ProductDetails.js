@@ -10,8 +10,12 @@ const ProductDetails = () => {
     const {addToCart} = useContext(CartContext);
     const [product, setProduct] = useState(null); 
     const [reviews, setReviews] = useState([]);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
+        const token = localStorage.getItem("token");
+        setIsLoggedIn(!!token);
+
         const fetchProduct = async () => {
             try {
                 const response = await fetch(`http://localhost:5001/api/products/${id}`);
@@ -67,7 +71,11 @@ const ProductDetails = () => {
                 <div className="product-description">
                     <p>{product.description}</p>
                     <p className="price">${product.price}</p>
-                    <button className="add-to-cart" onClick={() => addToCart(product)}>
+                    <button 
+                        className="add-to-cart" 
+                        onClick={() => addToCart(product)}
+                        disabled={!isLoggedIn}
+                    >
                         Dodaj do koszyka
                     </button>
                 </div>
