@@ -5,7 +5,7 @@ import Searcher from "../Searcher/Searcher";
 
 const ProductList = () => {
     const [products, setProducts] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm, setSearchTerm] = useState("");
     const [categoryFilter, setCategoryFilter] = useState("all");
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(0);
@@ -14,46 +14,17 @@ const ProductList = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const fakestorePromise = fetch('https://fakestoreapi.com/products')
-                    .then((response) => {
-                        if(!response.ok) {
-                            console.error("Błąd pobierania danych z FakestoreAPI");
-                            return [];
-                        }
-                        return response.json();
-                    })
-                    .catch((error) => {
-                        console.error("Błąd danych w fetch FakestoreAPI", error);
-                        return [];
-                    });
-                
-                const localPromise = fetch('http://localhost:5000/products')
-                    .then((response) => {
-                        if(!response.ok) {
-                            console.error("Błąd pobierania danych z db.json");
-                            return [];
-                        }
-                        return response.json();
-                    })
-                    .catch((error) => {
-                        console.error("Błąd danych w fetch FakestoreAPI", error);
-                        return [];
-                    });
-                
-                const [fakestoreData, localData] = await Promise.all([fakestorePromise, localPromise]);
-
-                console.log("Dane z FakestoreAPI:", fakestoreData);
-                console.log("Dane z db.json:", localData);
-
-                setProducts([
-                    ...fakestoreData.map((product) => ({ ...product, origin: 'fakestore' })),
-                    ...localData.map((product) => ({ ...product, origin: 'local' })),
-                ]);
+                const response = await fetch("http://localhost:5001/api/products")
+                if(!response.ok) {
+                    throw new Error("Błąd pobierania produktów");
+                }
+                const productsData = await response.json();
+                setProducts(productsData);
             } catch (error) {
                 console.error("Błąd", error);
-            };
-        
+            }
         };
+
         fetchProducts();
     }, []);
 
@@ -158,7 +129,7 @@ const ProductList = () => {
             <div className="product-grid">
                 {sortedProducts.map(product => (
                     <div key={product.id} className="product-card">
-                        <Link to={`/product/${product.id}?origin=${product.origin}`}>
+                        <Link to={`/product/${product.id}`}>
                             <img src={product.image} alt={product.title} className="product-image"/>
                             <h3>{product.title}</h3>
                             <p>{product.description.substring(0, 100)}...</p>

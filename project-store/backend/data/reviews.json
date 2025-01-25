@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "productId": 31,
+    "email": "user1@example.com",
+    "message": "Świetne jabłko, polecam!",
+    "rating": 5,
+    "date": "2025-01-22T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "productId": 32,
+    "email": "user2@example.com",
+    "message": "Rajstopy bardzo wygodne.",
+    "rating": 4,
+    "date": "2025-01-21T14:30:00Z"
+  },
+  {
+    "id": 3,
+    "productId": 33,
+    "email": "test123@example.com",
+    "message": "Lubię banany",
+    "rating": 5,
+    "date": "2025-01-25T00:10:39.678Z"
+  },
+  {
+    "id": 4,
+    "productId": 13,
+    "email": "test123@example.com",
+    "message": "Fajny telewizor. Oglądam na nim seriale.",
+    "rating": 5,
+    "date": "2025-01-25T13:11:32.561Z"
+  },
+  {
+    "id": 5,
+    "productId": 7,
+    "email": "test123@example.com",
+    "message": "Słabe",
+    "rating": 1,
+    "date": "2025-01-25T13:18:23.900Z"
+  }
+]

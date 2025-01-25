@@ -1,43 +1,58 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { CartContext } from '../../context/CartContext';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import ReviewsList from '../ReviewsList/ReviewsList';
+import AddReview from '../AddReview/AddReview';
 import "./ProductDetails.css";
 
 const ProductDetails = () => {
     const {id} = useParams();
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const origin = queryParams.get('origin');
     const {addToCart} = useContext(CartContext);
     const [product, setProduct] = useState(null); 
+    const [reviews, setReviews] = useState([]);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if(token) {
+            setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
+        }
+
         const fetchProduct = async () => {
             try {
-                let url;
-                if (origin === 'fakestore') {
-                    url = `https://fakestoreapi.com/products/${id}`;
-                } else if (origin === 'local') {
-                    url = `http://localhost:5000/products/${id}`;
-                } else {
-                    console.error("Invalid origin");
-                    return;
+                const response = await fetch(`http://localhost:5001/api/products/${id}`);
+                if (!response.ok) {
+                    throw new Error(`Błąd pobierania produktu o ID ${id}`);
                 }
-                
-                const response = await fetch(url);
-
-                if(!response.ok) {
-                    throw new Error(`Failed with ${response.status}`);
-                }
-                const data = await response.json();
-                setProduct(data);
+                const productData = await response.json();
+                setProduct(productData);
             } catch (error) {
-                console.error("Error fetching product details: ", error);
+                console.error("Błąd pobierania szczegółów produktu: ", error);
             }
         };
 
         fetchProduct();
-    }, [id, origin]);
+    }, [id]);
+
+    const fetchReviews = async () => {
+        try {
+            const response = await fetch(`http://localhost:5001/api/reviews/${id}`);
+            if(!response.ok) {
+                throw new Error(`Błąd pobierania recenzji dla produktu o ID ${id}`);
+            }
+            const reviewsData = await response.json();
+            setReviews(reviewsData);
+        } catch (error) {
+            console.error("Błąd pobierania recenzji: ", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchReviews();
+    }, [id])
 
     if(!product) {
         return <div>Loading...</div>
@@ -53,11 +68,27 @@ const ProductDetails = () => {
                 <div className="product-description">
                     <p>{product.description}</p>
                     <p className="price">${product.price}</p>
-                    <button className="add-to-cart" onClick={() => addToCart(product)}>
+                    <button 
+                        className="add-to-cart" 
+                        onClick={() => addToCart(product)}
+                        disabled={!isLoggedIn}
+                    >
                         Dodaj do koszyka
                     </button>
                 </div>
             </div>
+            <div className="review-section">
+                <ReviewsList reviews={reviews} />
+            </div>
+            <div className="add-review-section">
+                <AddReview 
+                    productId={id}
+                    isLoggedIn={isLoggedIn}
+                    onReviewAdded={() => fetchReviews()}
+                />
+            </div>
+
+            
         </div>
     );
 };
