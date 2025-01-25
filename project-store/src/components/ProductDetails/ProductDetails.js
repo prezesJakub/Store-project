@@ -14,7 +14,12 @@ const ProductDetails = () => {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        setIsLoggedIn(!!token);
+
+        if(token) {
+            setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
+        }
 
         const fetchProduct = async () => {
             try {
@@ -32,28 +37,20 @@ const ProductDetails = () => {
         fetchProduct();
     }, [id]);
 
-    useEffect(() => {
-        const fetchReviews = async () => {
-            try {
-                const reviewsData = [
-                    {
-                        email: "john@example.com",
-                        stars: 5,
-                        message: "Great product!",
-                        date: "2025-01-20",
-                    },
-                    {
-                        email: "jane@example.com",
-                        stars: 4,
-                        message: "Good quality, but delivery took too long.",
-                        date: "2025-01-18",
-                    },
-                ];
-                setReviews(reviewsData);
-            } catch (error) {
-                console.error("Error fetching reviews: ", error);
+    const fetchReviews = async () => {
+        try {
+            const response = await fetch(`http://localhost:5001/api/reviews/${id}`);
+            if(!response.ok) {
+                throw new Error(`Błąd pobierania recenzji dla produktu o ID ${id}`);
             }
-        };
+            const reviewsData = await response.json();
+            setReviews(reviewsData);
+        } catch (error) {
+            console.error("Błąd pobierania recenzji: ", error);
+        }
+    };
+
+    useEffect(() => {
         fetchReviews();
     }, [id])
 
@@ -84,7 +81,11 @@ const ProductDetails = () => {
                 <ReviewsList reviews={reviews} />
             </div>
             <div className="add-review-section">
-                <AddReview />
+                <AddReview 
+                    productId={id}
+                    isLoggedIn={isLoggedIn}
+                    onReviewAdded={() => fetchReviews()}
+                />
             </div>
 
             

@@ -7,21 +7,21 @@ const ReviewsList = ({reviews}) => {
 
     const calculateAverageRating = (reviews) => {
         if (reviews.length === 0) return 0;
-        const totalStars = reviews.reduce((sum, review) => sum + review.stars, 0);
+        const totalStars = reviews.reduce((sum, review) => sum + review.rating, 0);
         return (totalStars / reviews.length).toFixed(1);
     };
 
     const filteredAndSortedReviews = reviews
-        .filter((review) => review.stars >= filterStars)
+        .filter((review) => review.rating >= filterStars)
         .sort((a, b) => {
             if(sortOption === "date-desc") {
                 return new Date(b.date) - new Date(a.date);
             } else if(sortOption === "date-asc") {
                 return new Date(a.date) - new Date(b.date);
             } else if(sortOption === "stars-desc") {
-                return b.stars - a.stars;
+                return b.rating - a.rating;
             } else if(sortOption === "stars-asc") {
-                return a.stars - b.stars;
+                return a.rating - b.rating;
             }
             return 0;
         });
@@ -66,13 +66,13 @@ const ReviewsList = ({reviews}) => {
             {reviews.length === 0 ? (
                 <p>Brak opinii dla tego produktu! Dodaj swoją opinię!</p>
             ) : (
-                filteredAndSortedReviews.map((review, index) => (
-                    <div className="review-card" key={index}>
+                filteredAndSortedReviews.map((review) => (
+                    <div className="review-card" key={review.id}>
                         <div className="review-header">
                             <p className="review-email">{review.email}</p>
                             <p className="review-stars">
-                                {"★".repeat(review.stars)}
-                                {"☆".repeat(5 - review.stars)}
+                                {"★".repeat(review.rating)}
+                                {"☆".repeat(5 - review.rating)}
                             </p>
                         </div>
                         <p className="review-message">{review.message}</p>

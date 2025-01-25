@@ -1,87 +1,124 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import "./AddReview.css";
 
-const AddReview = () => {
-    const [email, setEmail] = useState("");
+const AddReview = ({productId, isLoggedIn, onReviewAdded}) => {
     const [message, setMessage] = useState("");
     const [rating, setRating] = useState(0);
     const [hoverRating, setHoverRating] = useState(0);  
     const [error, setError] = useState("");
-    const [submitted, setSubmitted] = useState(false);
+    const [alreadyReviewed, setAlreadyReviewed] = useState(false);
 
-    const validateEmail = (email) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    };
+    useEffect(() => {
+        const checkIfReviewed = async () => {
+            if (!isLoggedIn) return;
 
-    const handleSubmit = (e) => {
+            const token = localStorage.getItem("token");
+            try {
+                const response = await fetch(`http://localhost:5001/api/reviews/${productId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+
+                });
+                const reviews = await response.json();
+
+                const userReview = reviews.find((review) => review.email === JSON.parse(atob(token.split(".")[1])).email);
+                if(userReview) {
+                    setAlreadyReviewed(true);
+                }
+            } catch (error) {
+                console.error("Błąd podczas sprawdzania recenzji:", error);
+            }
+        };
+        checkIfReviewed();
+    }, [productId, isLoggedIn]);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if(!email || !message || !rating) {
+        if(!isLoggedIn) {
+            setError("Musisz być zalogowany, aby dodać recenzję!");
+            return;
+        }
+
+        if(alreadyReviewed) {
+            setError("Możesz dodać tylko jedną opinię dla tego produktu!");
+            return;
+        }
+
+        if(!message || !rating) {
             setError("Wszystkie pola są wymagane!");
             return;
         }
 
-        if(!validateEmail(email)) {
-            setError("Proszę wprowadzić prawidłowy adres e-mail!");
-            return;
-        }
+        const token = localStorage.getItem("token");
+        try {
+            const response = await fetch(`http://localhost:5001/api/reviews/${productId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({message, rating}),
+            });
 
-        if(submitted) {
-            setError("Możesz dodać tylko jedną opinię!");
-            return;
-        }
+            if(!response.ok) {
+                const data = await response.json();
+                setError(data.error || "Nie udało się dodać recenzji");
+                return;
+            }
 
-        console.log("Dodano opinię: ", {email, message, rating});
-        setError("");
-        setSubmitted(true);
+            setError("");
+            setAlreadyReviewed(true);
+            onReviewAdded();
+        } catch (error) {
+            console.error("Błąd podczas dodawania recezji", error);
+            setError("Wystąpił błąd podczas dodawania recenzji.");
+        }
     };
 
     return (
         <div className="add-review-container">
             <h2>Dodaj opinię</h2>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Email:
-                    <input 
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Wprowadź e-mail"
-                    />
-                </label>
-                <label>
-                    Wiadomość:
-                    <textarea 
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        placeholder="Napisz swoją opinię"
-                    />
-                </label>
-                <label>
-                    Ocena:
-                    <div className="rating-input">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                            <button 
-                                key={star}
-                                type="button"
-                                className={(hoverRating || rating) >= star ? "star selected" : "star"}
-                                onClick={() => setRating(star)}
-                                onMouseEnter={() => setHoverRating(star)}
-                                onMouseLeave={() => setHoverRating(0)}
-                            >
-                                ★
-                            </button>
-                        ))}
-                    </div>
-                </label>
-                {error && <p className="error-message">{error}</p>}
-                <button type="submit" className="review-submit-button" disabled={submitted}>
-                    {submitted ? "Opinia dodana" : "Dodaj opinię"}
-                </button>
-            </form>
+            {!isLoggedIn ? (
+                <p>Musisz być zalogowany, aby dodać recenzję.</p>
+            ) : alreadyReviewed ? (
+                <p>Już dodałeś recenzję dla tego produktu.</p>
+            ) : (
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        Wiadomość:
+                        <textarea 
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            placeholder="Napisz swoją opinię"
+                        />
+                    </label>
+                    <label>
+                        Ocena:
+                        <div className="rating-input">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <button 
+                                    key={star}
+                                    type="button"
+                                    className={(hoverRating || rating) >= star ? "star selected" : "star"}
+                                    onClick={() => setRating(star)}
+                                    onMouseEnter={() => setHoverRating(star)}
+                                    onMouseLeave={() => setHoverRating(0)}
+                                >
+                                    ★
+                                </button>
+                            ))}
+                        </div>
+                    </label>
+                    {error && <p className="error-message">{error}</p>}
+                    <button type="submit" className="review-submit-button">
+                        Dodaj opinię
+                    </button>
+                </form>
+            )}          
         </div>
     );
 };
 
-export default AddReview
+export default AddReview;
