@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./ReviewsList.css";
 
-const ReviewsList = ({reviews}) => {
+const ReviewsList = ({reviews, userRole, userEmail, onReviewDeleted, onReviewEdited}) => {
     const [filterStars, setFilterStars] = useState(0);
     const [sortOption, setSortOption] = useState("date-desc");
+    console.log(userRole, userEmail);
 
     const calculateAverageRating = (reviews) => {
         if (reviews.length === 0) return 0;
@@ -27,6 +28,49 @@ const ReviewsList = ({reviews}) => {
         });
 
     const averageRating = calculateAverageRating(reviews);
+
+    const handleDelete = async (id) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(`http://localhost:5001/api/reviews/${id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if(response.ok) {
+                onReviewDeleted(id);
+            } else {
+                console.error("Błąd usuwania recenzji");
+            }
+        } catch (error) {
+            console.error("Błąd podczas usuwania recenzji:", error);
+        }
+    };
+
+    const handleEdit = async (id, newMessage, newRating) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(`http://localhost:5001/api/reviews/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({message: newMessage, rating: newRating}),
+            });
+
+            if(response.ok) {
+                const updatedReview = await response.json();
+                onReviewEdited(updatedReview);
+            } else {
+                console.error("Błąd edycji recenzji");
+            }
+        } catch (error) {
+            console.error("Błąd podczas edytowania recenzji", error);
+        }
+    };
 
     return (
         <div className="reviews-list">
@@ -79,6 +123,12 @@ const ReviewsList = ({reviews}) => {
                         <p className="review-date">
                             {new Date(review.date).toLocaleDateString()}
                         </p>
+                        {(userRole === "admin" || userEmail === review.email) && (
+                            <div className="review-actions"> 
+                                <button onClick={() => handleDelete(review.id)}>Usuń</button>
+                                <button onClick={() => handleEdit(review.id)}>Edytuj</button>
+                            </div>
+                        )}
                     </div>
                 ))
             )}

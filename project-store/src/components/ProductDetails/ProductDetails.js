@@ -11,12 +11,17 @@ const ProductDetails = () => {
     const [product, setProduct] = useState(null); 
     const [reviews, setReviews] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userRole, setUserRole] = useState(null);
+    const [userEmail, setUserEmail] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
 
         if(token) {
             setIsLoggedIn(true);
+            const decodedToken = JSON.parse(atob(token.split('.')[1]));
+            setUserRole(decodedToken.role);
+            setUserEmail(decodedToken.email);
         } else {
             setIsLoggedIn(false);
         }
@@ -54,6 +59,10 @@ const ProductDetails = () => {
         fetchReviews();
     }, [id])
 
+    const handleReviewDeleted = (deletedReviewId) => {
+        setReviews((prevReviews) => prevReviews.filter((review) => review.id !== deletedReviewId));
+    }
+
     if(!product) {
         return <div>Loading...</div>
     }
@@ -78,7 +87,12 @@ const ProductDetails = () => {
                 </div>
             </div>
             <div className="review-section">
-                <ReviewsList reviews={reviews} />
+                <ReviewsList 
+                    reviews={reviews} 
+                    userRole={userRole}
+                    userEmail={userEmail}
+                    onReviewDeleted={handleReviewDeleted}
+                />
             </div>
             <div className="add-review-section">
                 <AddReview 

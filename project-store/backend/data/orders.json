@@ -240,5 +240,31 @@
     "userName": "Michał Kichał",
     "userAddress": "Zielona 23",
     "date": "2025-01-24T21:40:21.206Z"
+  },
+  {
+    "id": 16,
+    "userId": 4,
+    "products": [
+      {
+        "id": 33,
+        "quantity": 3
+      },
+      {
+        "id": 31,
+        "quantity": 1
+      },
+      {
+        "id": 21,
+        "quantity": 5
+      },
+      {
+        "id": 4,
+        "quantity": 1
+      }
+    ],
+    "totalPrice": 112.95,
+    "userName": "Jakub Zając",
+    "userAddress": "Aleja Mickiewicza 30",
+    "date": "2025-01-25T14:58:53.711Z"
   }
 ]
