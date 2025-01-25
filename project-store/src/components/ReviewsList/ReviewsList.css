@@ -83,6 +83,21 @@
     color: #888;
 }
 
+.review-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.review-actions button {
+    padding: 8px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
 @media (max-width: 768px) {
     .reviews-list {
         padding: 10px;

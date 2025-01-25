@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./ReviewsList.css";
+import EditReview from "../EditReview/EditReview";
 
-const ReviewsList = ({reviews}) => {
+const ReviewsList = ({reviews, userRole, userEmail, onReviewDeleted, onReviewEdited}) => {
     const [filterStars, setFilterStars] = useState(0);
     const [sortOption, setSortOption] = useState("date-desc");
+    const [editingReviewId, setEditingReviewId] = useState(null);
 
     const calculateAverageRating = (reviews) => {
         if (reviews.length === 0) return 0;
@@ -27,6 +29,35 @@ const ReviewsList = ({reviews}) => {
         });
 
     const averageRating = calculateAverageRating(reviews);
+
+    const handleDelete = async (id) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(`http://localhost:5001/api/reviews/${id}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if(response.ok) {
+                onReviewDeleted(id);
+            } else {
+                console.error("Błąd usuwania recenzji");
+            }
+        } catch (error) {
+            console.error("Błąd podczas usuwania recenzji:", error);
+        }
+    };
+
+    const handleEdit = (id) => setEditingReviewId(id);
+
+    const handleCancelEdit = () => setEditingReviewId(null);
+
+    const handleSaveEdit = (updatedReview) => {
+        onReviewEdited(updatedReview);
+        setEditingReviewId(null);
+    };
 
     return (
         <div className="reviews-list">
@@ -68,17 +99,33 @@ const ReviewsList = ({reviews}) => {
             ) : (
                 filteredAndSortedReviews.map((review) => (
                     <div className="review-card" key={review.id}>
-                        <div className="review-header">
-                            <p className="review-email">{review.email}</p>
-                            <p className="review-stars">
-                                {"★".repeat(review.rating)}
-                                {"☆".repeat(5 - review.rating)}
-                            </p>
-                        </div>
-                        <p className="review-message">{review.message}</p>
-                        <p className="review-date">
-                            {new Date(review.date).toLocaleDateString()}
-                        </p>
+                        {editingReviewId === review.id ? (
+                            <EditReview 
+                                review={review}
+                                onCancel={handleCancelEdit}
+                                onUpdate={handleSaveEdit}
+                            />
+                        ) : (
+                            <>
+                                <div className="review-header">
+                                    <p className="review-email">{review.email}</p>
+                                    <p className="review-stars">
+                                        {"★".repeat(review.rating)}
+                                        {"☆".repeat(5 - review.rating)}
+                                    </p>
+                                </div>
+                                <p className="review-message">{review.message}</p>
+                                <p className="review-date">
+                                    {new Date(review.date).toLocaleDateString()}
+                                </p>
+                                {(userRole === "admin" || userEmail === review.email) && (
+                                    <div className="review-actions"> 
+                                        <button onClick={() => handleDelete(review.id)}>Usuń</button>
+                                        <button onClick={() => handleEdit(review.id)}>Edytuj</button>
+                                    </div>
+                                )}
+                            </>
+                        )}
                     </div>
                 ))
             )}

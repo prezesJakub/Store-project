@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": "1",
     "productId": 31,
     "email": "user1@example.com",
     "message": "Świetne jabłko, polecam!",
@@ -8,23 +8,15 @@
     "date": "2025-01-22T10:00:00Z"
   },
   {
-    "id": 2,
-    "productId": 32,
-    "email": "user2@example.com",
-    "message": "Rajstopy bardzo wygodne.",
-    "rating": 4,
-    "date": "2025-01-21T14:30:00Z"
-  },
-  {
-    "id": 3,
+    "id": "3",
     "productId": 33,
     "email": "test123@example.com",
-    "message": "Lubię banany",
+    "message": "Bardzo lubię banany",
     "rating": 5,
     "date": "2025-01-25T00:10:39.678Z"
   },
   {
-    "id": 4,
+    "id": "4",
     "productId": 13,
     "email": "test123@example.com",
     "message": "Fajny telewizor. Oglądam na nim seriale.",
@@ -32,11 +24,27 @@
     "date": "2025-01-25T13:11:32.561Z"
   },
   {
-    "id": 5,
+    "id": "5",
     "productId": 7,
     "email": "test123@example.com",
-    "message": "Słabe",
+    "message": "Słabiutkie",
     "rating": 1,
     "date": "2025-01-25T13:18:23.900Z"
+  },
+  {
+    "id": "298ee853-d6e5-46ae-95d6-03f632b2d7f9",
+    "productId": 21,
+    "email": "jtk@student.agh.edu.pl",
+    "message": "Alibaba król kebaba",
+    "rating": 5,
+    "date": "2025-01-25T14:57:22.606Z"
+  },
+  {
+    "id": "9d3b29f3-2f3e-4ce5-88bd-fdb0ad35169a",
+    "productId": 33,
+    "email": "jtk@student.agh.edu.pl",
+    "message": "Banany są dobre",
+    "rating": 5,
+    "date": "2025-01-25T14:57:52.558Z"
   }
 ]

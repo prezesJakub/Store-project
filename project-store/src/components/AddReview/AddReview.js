@@ -1,37 +1,44 @@
 import React, {useState, useEffect} from "react";
 import "./AddReview.css";
 
-const AddReview = ({productId, isLoggedIn, onReviewAdded}) => {
+const AddReview = ({productId, isLoggedIn, onReviewAdded, onReviewDeleted}) => {
     const [message, setMessage] = useState("");
     const [rating, setRating] = useState(0);
     const [hoverRating, setHoverRating] = useState(0);  
     const [error, setError] = useState("");
     const [alreadyReviewed, setAlreadyReviewed] = useState(false);
 
-    useEffect(() => {
-        const checkIfReviewed = async () => {
-            if (!isLoggedIn) return;
+    const checkIfReviewed = async () => {
+        if (!isLoggedIn) return;
 
-            const token = localStorage.getItem("token");
-            try {
-                const response = await fetch(`http://localhost:5001/api/reviews/${productId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+        const token = localStorage.getItem("token");
+        try {
+            const response = await fetch(`http://localhost:5001/api/reviews/${productId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
 
-                });
-                const reviews = await response.json();
+            });
+            const reviews = await response.json();
 
-                const userReview = reviews.find((review) => review.email === JSON.parse(atob(token.split(".")[1])).email);
-                if(userReview) {
-                    setAlreadyReviewed(true);
-                }
-            } catch (error) {
-                console.error("Błąd podczas sprawdzania recenzji:", error);
+            const userReview = reviews.find((review) => review.email === JSON.parse(atob(token.split(".")[1])).email);
+            if(userReview) {
+                setAlreadyReviewed(true);
             }
-        };
+        } catch (error) {
+            console.error("Błąd podczas sprawdzania recenzji:", error);
+        }
+    };
+
+    useEffect(() => {
         checkIfReviewed();
-    }, [productId, isLoggedIn]);
+    }, [productId, isLoggedIn, onReviewAdded]);
+
+    useEffect(() => {
+        if(onReviewDeleted) {
+            setAlreadyReviewed(false);
+        }
+    }, [onReviewDeleted]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -70,6 +77,9 @@ const AddReview = ({productId, isLoggedIn, onReviewAdded}) => {
 
             setError("");
             setAlreadyReviewed(true);
+            setMessage("");
+            setRating(0);
+            setHoverRating(0);
             onReviewAdded();
         } catch (error) {
             console.error("Błąd podczas dodawania recezji", error);

@@ -19,5 +19,12 @@
     "email": "test123@example.com",
     "password": "$2b$10$t9ud8txz3dK2XHJjn5dLmOwvm1hK5jUouEMtaQIUuQn.18ke8epgO",
     "role": "user"
+  },
+  {
+    "id": 4,
+    "username": "jtk",
+    "email": "jtk@student.agh.edu.pl",
+    "password": "$2b$10$kZeVgK732iG7nzQn3ToLDeR6AwqzyZX6GL6fsFxnLNG0qfPf3PUwe",
+    "role": "admin"
   }
 ]
