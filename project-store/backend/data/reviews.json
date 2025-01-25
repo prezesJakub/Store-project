@@ -11,7 +11,7 @@
     "id": "3",
     "productId": 33,
     "email": "test123@example.com",
-    "message": "Lubię banany",
+    "message": "Bardzo lubię banany",
     "rating": 5,
     "date": "2025-01-25T00:10:39.678Z"
   },
@@ -27,7 +27,7 @@
     "id": "5",
     "productId": 7,
     "email": "test123@example.com",
-    "message": "Słabe",
+    "message": "Słabiutkie",
     "rating": 1,
     "date": "2025-01-25T13:18:23.900Z"
   },

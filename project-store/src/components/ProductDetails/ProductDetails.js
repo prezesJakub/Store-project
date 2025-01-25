@@ -57,11 +57,16 @@ const ProductDetails = () => {
 
     useEffect(() => {
         fetchReviews();
-    }, [id])
+    }, [id]);
 
     const handleReviewDeleted = (deletedReviewId) => {
         setReviews((prevReviews) => prevReviews.filter((review) => review.id !== deletedReviewId));
-    }
+        fetchReviews();
+    };
+
+    const handleReviewEdited = (updatedReview) => {
+        setReviews((prevReviews) => prevReviews.map((review) => review.id === updatedReview.id ? updatedReview : review));
+    };
 
     if(!product) {
         return <div>Loading...</div>
@@ -92,6 +97,7 @@ const ProductDetails = () => {
                     userRole={userRole}
                     userEmail={userEmail}
                     onReviewDeleted={handleReviewDeleted}
+                    onReviewEdited={handleReviewEdited}
                 />
             </div>
             <div className="add-review-section">
@@ -99,6 +105,7 @@ const ProductDetails = () => {
                     productId={id}
                     isLoggedIn={isLoggedIn}
                     onReviewAdded={() => fetchReviews()}
+                    onReviewDeleted={() => fetchReviews()}
                 />
             </div>
 

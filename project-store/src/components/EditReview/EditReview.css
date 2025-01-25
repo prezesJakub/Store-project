@@ -1,0 +1,111 @@
+.edit-review-container {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.edit-review-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.edit-review-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.edit-review-container label {
+    font-size: 0.9rem;
+    color: #555;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.edit-review-container textarea {
+    resize: none;
+    height: 80px;
+    padding: 10px;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.2s ease;
+}
+
+.edit-review-container textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.rating-input {
+    display: flex;
+    gap: 5px;
+}
+
+.rating-input .star {
+    font-size: 1.5rem;
+    color: #ccc;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.rating-input .star.selected {
+    color: #ffd700;
+}
+
+.rating-input .star:hover {
+    color: #ffbf00;
+}
+
+.error-message {
+    font-size: 0.9rem;
+    color: #d9534f;
+    text-align: center;
+}
+
+.edit-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.edit-actions button {
+    flex: 1;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.review-submit-button {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.review-submit-button:hover {
+    background-color: #218838;
+}
+
+.cancel-button {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.cancel-button:hover {
+    background-color: #c82333;
+}
+
+.edit-actions button:active {
+    transform: scale(0.95);
+}
