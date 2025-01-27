@@ -46,5 +46,85 @@
     "message": "Banany są dobre",
     "rating": 5,
     "date": "2025-01-25T14:57:52.558Z"
+  },
+  {
+    "id": "438db37a-abe5-45af-b02c-f85332830b9a",
+    "productId": 14,
+    "email": "jtk@student.agh.edu.pl",
+    "message": "Fajny monitor",
+    "rating": 5,
+    "date": "2025-01-27T11:13:05.742Z"
+  },
+  {
+    "id": "dbd19b4d-7133-4863-9be2-054a178e9012",
+    "productId": 3,
+    "email": "jtk@student.agh.edu.pl",
+    "message": "Takie średnie, ujdzie",
+    "rating": 3,
+    "date": "2025-01-27T11:13:39.017Z"
+  },
+  {
+    "id": "2e1d23e8-4262-4c69-870e-689afa9aba89",
+    "productId": 1,
+    "email": "jtk@student.agh.edu.pl",
+    "message": "Zmieścił mi 15 laptopów! :O",
+    "rating": 5,
+    "date": "2025-01-27T11:14:10.519Z"
+  },
+  {
+    "id": "1a71b072-5cae-46ec-8d80-0955e130ea83",
+    "productId": 31,
+    "email": "mateuszrys@student.agh.edu.pl",
+    "message": "Pyszne jabłka, polecam!",
+    "rating": 5,
+    "date": "2025-01-27T11:21:28.553Z"
+  },
+  {
+    "id": "1f734f68-9d63-45d3-9c1e-d52ae3f90118",
+    "productId": 32,
+    "email": "mateuszrys@student.agh.edu.pl",
+    "message": "Super rajstopy, nie zdarzyło mi się jeszcze, żeby się rozpruły.",
+    "rating": 5,
+    "date": "2025-01-27T11:22:09.574Z"
+  },
+  {
+    "id": "bd785888-0a6b-4738-a680-b66e342b1b92",
+    "productId": 21,
+    "email": "test124@example.com",
+    "message": "Zgadzam się z przedmówcą!",
+    "rating": 5,
+    "date": "2025-01-27T11:24:36.326Z"
+  },
+  {
+    "id": "07971fc4-31af-4c32-8c83-eb9ca366818f",
+    "productId": 31,
+    "email": "test124@example.com",
+    "message": "Bardzo smaczne, ale trochę drogie",
+    "rating": 4,
+    "date": "2025-01-27T11:25:01.944Z"
+  },
+  {
+    "id": "eeb2f288-1734-4a53-aa25-260544481956",
+    "productId": 12,
+    "email": "test124@example.com",
+    "message": "Tego mi brakowało",
+    "rating": 5,
+    "date": "2025-01-27T11:26:06.588Z"
+  },
+  {
+    "id": "73d3df3a-a2ea-47a9-b30b-8d641f0ee4ee",
+    "productId": 4,
+    "email": "john@example.com",
+    "message": "Dla mnie wygodne całkiem",
+    "rating": 5,
+    "date": "2025-01-27T11:50:15.677Z"
+  },
+  {
+    "id": "619826dc-c717-4dbe-95c2-b3381a5c5d41",
+    "productId": 10,
+    "email": "john@example.com",
+    "message": "Great product!",
+    "rating": 5,
+    "date": "2025-01-27T12:07:58.485Z"
   }
 ]

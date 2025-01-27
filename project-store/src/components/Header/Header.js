@@ -1,10 +1,24 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './Header.css';
 import { Link, useNavigate } from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode';
 
 const Header = () => {
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
+    const [role, setRole] = useState(null);
+
+    useEffect(() => {
+        if (token) {
+            try {
+                const decoded = jwtDecode(token);
+                setRole(decoded.role);
+            } catch (error) {
+                console.error("Błąd podczas decodowania tokena", error);
+                setRole(null);
+            }
+        }
+    }, [token]);
 
     const handleNotLoggedClick = () => {
         if (!token) {
@@ -21,6 +35,11 @@ const Header = () => {
                 <nav>
                     <ul className="nav-links">
                         <li><Link to="/" className="home-link">Home</Link></li>
+                        {token && role === "admin" && (
+                            <li>
+                                <Link to="/orders" className="orders-link">Historia zamówień</Link>
+                            </li>
+                        )}
                         <li>
                             {token ? (
                                 <Link to="/cart" className="cart-link">Koszyk</Link>

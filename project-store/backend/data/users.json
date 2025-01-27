@@ -26,5 +26,47 @@
     "email": "jtk@student.agh.edu.pl",
     "password": "$2b$10$kZeVgK732iG7nzQn3ToLDeR6AwqzyZX6GL6fsFxnLNG0qfPf3PUwe",
     "role": "admin"
+  },
+  {
+    "id": 5,
+    "username": "mateuszrys",
+    "email": "mateuszrys@student.agh.edu.pl",
+    "password": "$2b$10$aP8JBzmWMGBaviGo1.1.YOa2nsjJLMvBSh65XGsq1xQTsJ1cncenW",
+    "role": "admin"
+  },
+  {
+    "id": 6,
+    "username": "ssemenczuk",
+    "email": "ssemenczuk@student.agh.edu.pl",
+    "password": "$2b$10$WuZ8VKSiOgOH3hB5avnuQ.lVu7DhTrQuQbgq/nzbuDYrte3/FAdMO",
+    "role": "admin"
+  },
+  {
+    "id": 7,
+    "username": "sborusiewicz",
+    "email": "sborusiewicz@student.agh.edu.pl",
+    "password": "$2b$10$cNWrrULeHcLawVG5jHyXAOSsSnDADEN6LhEtEq.DnmEGkoePooJ7K",
+    "role": "admin"
+  },
+  {
+    "id": 8,
+    "username": "mateusja",
+    "email": "mateusja@agh.edu.pl",
+    "password": "$2b$10$yZD3zfhQLjezothL3omZSebqEd37wjAqgtoO7qM/4GN4ZUE7Bn.Wi",
+    "role": "admin"
+  },
+  {
+    "id": 9,
+    "username": "test124",
+    "email": "test124@example.com",
+    "password": "$2b$10$6fj8IeMV2eFTe80G7OYdXuW8GwupDvYQRPQOhvteufkmWfvFUCRLe",
+    "role": "user"
+  },
+  {
+    "id": 10,
+    "username": "john_doe",
+    "email": "john@example.com",
+    "password": "$2b$10$aGVHfbKNAorlG5E.eK/iqOeBnO4VTjKwieplrWBXMZXTLgFw1rN82",
+    "role": "user"
   }
 ]

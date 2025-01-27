@@ -12,7 +12,8 @@ import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import RegistrationConfirmation from './components/RegistrationConfirmation/RegistrationConfirmation';
 import Profile from './components/Profile/Profile';
-
+import OrdersList from './components/OrdersList/OrdersList';
+import OrderDetails from './components/OrderDetails/OrderDetails';
 
 const App = () => {
   return (
@@ -31,6 +32,8 @@ const App = () => {
               <Route path="/register" element={<Register />} />
               <Route path="/registration-confirmation" element={<RegistrationConfirmation />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/orders" element={<OrdersList />} />
+              <Route path="/orders/:orderId" element={<OrderDetails />} />
             </Routes>
           </Router>
         </CartProvider>
