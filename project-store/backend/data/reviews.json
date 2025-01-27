@@ -110,5 +110,21 @@
     "message": "Tego mi brakowało",
     "rating": 5,
     "date": "2025-01-27T11:26:06.588Z"
+  },
+  {
+    "id": "73d3df3a-a2ea-47a9-b30b-8d641f0ee4ee",
+    "productId": 4,
+    "email": "john@example.com",
+    "message": "Dla mnie wygodne całkiem",
+    "rating": 5,
+    "date": "2025-01-27T11:50:15.677Z"
+  },
+  {
+    "id": "619826dc-c717-4dbe-95c2-b3381a5c5d41",
+    "productId": 10,
+    "email": "john@example.com",
+    "message": "Great product!",
+    "rating": 5,
+    "date": "2025-01-27T12:07:58.485Z"
   }
 ]

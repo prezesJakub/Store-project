@@ -61,5 +61,12 @@
     "email": "test124@example.com",
     "password": "$2b$10$6fj8IeMV2eFTe80G7OYdXuW8GwupDvYQRPQOhvteufkmWfvFUCRLe",
     "role": "user"
+  },
+  {
+    "id": 10,
+    "username": "john_doe",
+    "email": "john@example.com",
+    "password": "$2b$10$aGVHfbKNAorlG5E.eK/iqOeBnO4VTjKwieplrWBXMZXTLgFw1rN82",
+    "role": "user"
   }
 ]
